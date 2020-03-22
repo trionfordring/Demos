@@ -1,9 +1,9 @@
 spring:
   datasource:
-    driver-class-name: #驱动类
-    url: #jdbc连接
-    username: #sql用户
-    password: #sql密码
+    driver-class-name: com.mysql.cj.jdbc.Driver #驱动类
+    url: jdbc:mysql://fordring.icu:3309/loginDemo #jdbc连接
+    username: loginDemo #sql用户
+    password: xHXZSa3bt34ciMdx #sql密码
     hikari:
       max-lifetime: 60000 #用于维持hikari的存活时间
   jpa:
@@ -13,9 +13,9 @@ spring:
   mvc:
     static-path-pattern: /static/** #网站的静态资源路径
   mail:
-    host: #smtp服务器
-    password: #邮箱密码
-    username: #邮箱用户
+    host: smtp.mxhichina.com #smtp服务器
+    password: nuist123456! #邮箱密码
+    username: fordring@fordring.icu #邮箱用户
     port: 465 #使用465端口发送邮件
     properties:
       mail:
@@ -38,4 +38,5 @@ application:
       - ROLE_USER
 
 
-
+server:
+  port: 30202

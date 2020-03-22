@@ -36,24 +36,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Value("${spring.mvc.static-path-pattern}")
     private String staticPattern;
     @Resource
-    private DataSource dataSource;
-    @Resource
     private PersistentTokenRepository persistentTokenRepository;
     @Resource
     private UserVerifier userVerifier;
     @Resource
     private PasswordEncoder passwordEncoder;
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public PersistentTokenRepository persistentTokenRepository(){
-        JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
-        tokenRepository.setDataSource(dataSource);
-        //tokenRepository.setCreateTableOnStartup(true);
-        return tokenRepository;
-    }
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
