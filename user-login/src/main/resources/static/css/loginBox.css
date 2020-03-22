@@ -1,0 +1,169 @@
+@media screen and (max-width: 500px) {
+    .loginBox {
+        right: 5vw;
+        background-color: #1e1e1e;
+    }
+}
+
+@media screen and (min-width: 500px) {
+    .loginBox {
+        right: 12vw;
+        background-color: #1e1e1ed0;
+    }
+    .loginBox:hover {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        padding-left: 55px;
+        padding-right: 55px;
+        width: 280px;
+        font-size: 120%;
+        box-shadow: 0px 0px 25px 10px;
+        transition: 0.4s;
+    }
+}
+
+.loginBox h1 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.loginBox h4 {
+    color: white;
+    margin: 5px;
+    font: 0.7em sans-serif;
+    margin-top: 10px;
+}
+
+.loginBox {
+    float: right;
+    width: 230px;
+    height: auto;
+    position: absolute;
+    top: 20%;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    padding-left: 60px;
+    padding-right: 60px;
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px 5px #0f0f0f;
+    transition: 0.25s;
+}
+
+.loginBox .input {
+    display: block;
+    margin-top: 10px;
+    background: none;
+    outline-style: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-width: 1px;
+    border-bottom-color: #3498db;
+    color: white;
+    padding: 8px;
+    width: 200px;
+    transition: 0.25s;
+}
+
+.loginBox .input:hover {
+    width: 250px;
+    transition: 0.25s;
+}
+
+.loginBox .input:focus {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    width: 250px;
+    transition: 0.25s;
+}
+
+.loginBox .submitButton {
+    margin-top: 10px;
+    display: block;
+    float: right;
+    border: none;
+    outline-style: none;
+    background-color: turquoise;
+    width: 60px;
+    height: 40px;
+    border-radius: 5px;
+    transition: 0.25s;
+}
+
+.loginBox .submitButton:hover {
+    background-color: rgb(152, 223, 216);
+    width: 80px;
+    transition: 0.25s;
+}
+
+.loginBox h1,
+.loginBox h4 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.loginBox .registerForm {
+    display: none;
+    transform: 0.25;
+}
+
+.loginBox .sendButton {
+    margin-top: 10px;
+    display: block;
+    border: none;
+    outline-style: none;
+    background-color: turquoise;
+    width: 90px;
+    height: 35px;
+    border-radius: 5px;
+    transition: 0.25s;
+}
+
+.loginBox .sendButton:hover {
+    width: 180px;
+    transition: 0.8s;
+}
+
+.loginBox .remember {
+    margin-left: 3px;
+    vertical-align: middle;
+    height: 16px;
+    width: 16px;
+    cursor: pointer;
+}
+
+.loginBox .findBackForm {
+    display: none;
+}
+
+.loginBox .activedButton {
+    background-color: rgb(219, 196, 132);
+    width: 120px;
+    transition: 0.25s;
+}
+
+.loginBox .activedButton:hover {
+    background-color: rgb(224, 145, 121);
+    width: 130px;
+    transition: 0.25s;
+}
+
+.loginBox .activedLongButton {
+    background-color: rgb(103, 134, 199);
+    width: 200px;
+    transition: 0.25s;
+}
+
+.loginBox .succeedLongButton {
+    background-color: turquoise;
+    width: 200px;
+    transition: 0.25s;
+}
+
+.loginBox .failedLongButton {
+    background-color: rgb(224, 114, 80);
+    width: 120px;
+    transition: 0.5s;
+}

@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+@media screen and (max-width: 450px) {
+    .loginPage {
+        background-color: none;
+    }
+}
+
+@media screen and (min-width: 450px) {
+    .loginPage {
+        background-color: #1e1e1e;
+    }
+}
+
+.loginPage {
+    width: 100%;
+    height: 100vh;
+}
+
+.back {
+    width: 100%;
+    height: 100%;
+    background-color: #1e1e1e;
+    background-image: url(/static/img/b_tiny.png);
+    background-repeat: space;
+    background-size: cover;
+}
+
+a {
+    color: steelblue;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+a:hover {
+    color: skyblue;
+    font-weight: 700;
+}
+
+a:visited {
+    color: steelblue;
+}

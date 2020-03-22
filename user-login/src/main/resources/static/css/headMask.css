@@ -1,0 +1,100 @@
+.head .headMask {
+    width: 100%;
+    height: 42px;
+    z-index: 200;
+    background-color: #1e1e1eb0;
+    box-shadow: 0px 0px 15px 5px #0f0f0f;
+    transition: 0.25s;
+}
+
+.head {
+    width: 100%;
+    height: fit-content;
+}
+
+.head:hover .headMask {
+    height: 52px;
+    transition: 0.25s;
+}
+
+.head .headMask .head-right {
+    float: right;
+}
+
+.head .headMask .head-right .head-icon {
+    float: right;
+    height: 44px;
+    width: auto;
+    margin-right: 10px;
+    transition: 0.25s;
+}
+
+.head:hover .headMask .head-icon {
+    height: 54px;
+    transition: 0.25s;
+}
+
+.head .headMask .head-right .head-icon path {
+    fill: aliceblue;
+    transition: 0.25s;
+}
+
+.head .headMask .head-right .head-icon:hover path {
+    fill: aquamarine;
+    transition: 0.25s;
+}
+
+.head .headMask .head-right .head-menu {
+    display: none;
+    position: relative;
+    top: 52px;
+    margin-right: 10px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    background-color: #0f0f0faa;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 10px 15px 5px #0f0f0f;
+    z-index: 500;
+    transition: 0.25s;
+}
+
+.head .headMask .head-right .head-icon:hover+.head-menu,
+.head .head-right:hover .head-menu {
+    display: block;
+}
+
+.head-menu h2 {
+    color: white;
+    font: 1em sans-serif;
+    white-space: nowrap;
+    padding: 30px;
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+.head-menu h4 {
+    color: white;
+    font: 1em sans-serif;
+    white-space: nowrap;
+    padding: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.head-menu a {
+    color: white;
+    display: block;
+    font: 1.2em sans-serif;
+    white-space: nowrap;
+    padding: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.head-menu a:hover {
+    color: aqua;
+    background-color: #505050aa;
+}

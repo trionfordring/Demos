@@ -1,0 +1,47 @@
+@media screen and (max-width: 500px) {
+    .timeBox {
+        display: none;
+    }
+}
+
+.timeBox {
+    padding-top: 25px;
+    padding-left: 55px;
+    padding-right: 65px;
+    padding-bottom: 10px;
+    float: left;
+    position: absolute;
+    font-size: 36px;
+    top: 60vh;
+    left: 1vw;
+    text-align: center;
+    background-color: #1e1e1e38;
+    transition: 0.25s;
+}
+
+.timeBox h1 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.timeBox h4 {
+    color: white;
+    margin: 5px;
+    font: 0.7em sans-serif;
+    margin-top: 10px;
+}
+
+.timeBox:hover {
+    background-color: #1e1e1e8e;
+    box-shadow: 0px 0px 10px 5px;
+    font-size: 40px;
+    transition: 0.25s;
+}
+
+.timeBox h1 {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-weight: 200;
+}

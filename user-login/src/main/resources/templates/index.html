@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>index</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        var user = {
+            hasLogin: false,
+            afterLogin: () => {
+                user.hasLogin = true;
+                $.get("/tools/get/detail", (details, status) => {
+                    if (status == "success") {
+                        $.extend(user, details);
+                        loadCss("/static/css/headMask.css", () => {
+                            loadBox("/static/html/head.html");
+                        })
+                    } else {
+                        console.error("can't connect to server.");
+                        setTimeout(user.afterLogin, 1000);
+                    }
+                });
+            }
+        }
+        var boxes = new Array();
+
+        function showImg() {
+            let a = document.getElementById('loginPage');
+            let value = 255;
+            let clock = setInterval(() => {
+                value -= 7;
+                if (value > 0) {
+                    a.style.backgroundColor = "#1e1e1e" + value.toString(16);
+                } else {
+                    a.style.backgroundColor = "#1e1e1e00"
+                    clearInterval(clock);
+                }
+            }, 10);
+        }
+
+        function loadCss(path, callback) {
+            let head = document.getElementsByTagName('head')[0];
+            let link = document.createElement('link');
+            link.href = path;
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            head.appendChild(link);
+            if (callback) {
+                $(link).ready(callback);
+            }
+        }
+
+        function closeAll() {
+            boxes.forEach((box) => {
+                box.fadeOut("slow", () => {
+                    box.remove();
+                });
+            });
+        }
+
+        function allFadeTo(time, value) {
+            boxes.forEach((box) => {
+                box.fadeTo(time, value);
+            });
+        }
+
+        function loadBox(href, callback, fatherBox = $("#loginPage")) {
+            $.get(href, (response, status, xhr) => {
+                let box = $(response);
+                boxes.push(box);
+                box.css("display", "none");
+                fatherBox.append(box);
+                box.ready(() => {
+                    box.fadeIn("fast");
+                    if (callback) {
+                        callback(response, status, xhr);
+                    }
+                })
+            });
+        }
+        $(() => {
+            loadCss("/static/css/timeBox.css", () => {
+                loadBox("/static/html/timeBox.html");
+            });
+            $.get("/tools/hasLogin", (response) => {
+                user.hasLogin = response;
+                if (response == false) {
+                    loadCss("/static/css/loginBox.css", () => {
+                        loadBox("/static/html/loginBox.html");
+                    });
+                } else {
+                    user.afterLogin();
+                }
+            });
+        })
+    </script>
+</head>
+
+<body onload="showImg()">
+    <div class="back">
+        <div id="loginPage" class="loginPage">
+        </div>
+    </div>
+</body>
+
+</html>

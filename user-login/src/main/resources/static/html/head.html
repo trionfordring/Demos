@@ -1,0 +1,32 @@
+<div id="head" class="head">
+    <link rel="stylesheet" href="/static/css/headMask.css">
+    <script>
+        $("#head").ready(() => {
+            $("#userNameH").html(user.name);
+            $("#userLevelH").html("等级:" + user.level);
+            var sleepClock = 0;
+            setInterval(() => {
+                if (sleepClock == 30) {
+                    $("#head").fadeTo(1000, 0.05);
+                }
+                sleepClock++;
+            }, 1000);
+            $("#head").mouseenter(() => {
+                sleepClock = 0;
+                $("#head").fadeTo(500, 1);
+            });
+        });
+    </script>
+    <div class="headMask">
+        <div class="head-left"></div>
+        <div class="head-right">
+            <svg t="1584267116156" class="head-icon" viewBox="0 0 1056 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="898" xmlns:xlink="http://www.w3.org/1999/xlink" width="206.25" height="200"><defs><style type="text/css"></style></defs><path d="M512 96c229.76 0 416 186.24 416 416s-186.24 416-416 416S96 741.76 96 512 282.24 96 512 96z m0 480c-105.024 0-192 99.424-192 224 0 2.24-0.224 4.48-0.672 6.624A350.24 350.24 0 0 0 512 864c71.136 0 137.344-21.12 192.704-57.376A30.272 30.272 0 0 1 704 800c0-124.576-86.976-224-192-224z m0-416C317.6 160 160 317.6 160 512c0 95.04 37.664 181.312 98.912 244.64 14.72-109.6 84.352-199.552 177.152-231.808a160 160 0 1 1 151.84 0.064c92.832 32.192 162.464 122.144 177.216 231.712A350.784 350.784 0 0 0 864 512c0-194.4-157.6-352-352-352z m0 128a96 96 0 1 0 0 192 96 96 0 0 0 0-192z" fill="#fff" fill-opacity=".65" p-id="899"></path></svg>
+            <div class="head-menu">
+                <h2 id="userNameH">用户名</h2>
+                <h4 id="userLevelH">等级:1</h4>
+                <a id="pannelEntrance">个人面板</a>
+                <a href="/logout">退出登录</a>
+            </div>
+        </div>
+    </div>
+</div>

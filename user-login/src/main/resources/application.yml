@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    driver-class-name: #驱动类
+    url: #jdbc连接
+    username: #sql用户
+    password: #sql密码
+    hikari:
+      max-lifetime: 60000 #用于维持hikari的存活时间
+  jpa:
+    database: #sql
+    hibernate:
+      ddl-auto: update
+  mvc:
+    static-path-pattern: /static/** #网站的静态资源路径
+  mail:
+    host: #smtp服务器
+    password: #邮箱密码
+    username: #邮箱用户
+    port: 465 #使用465端口发送邮件
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
+      imap:
+        ssl:
+          socketFactory:
+            fallback: false
+application:
+  register:
+    verification-length: 5 #验证码的长度
+    verification-time-out: 1800000  #未实装
+    max-name-length: 32 #用户名最大长度限制
+    min-name-length: 1 #用户名最短长度
+    max-password-length: 32 #密码的最大长度
+    min-password-length: 6 #密码的最短长度
+    default-roles: #用户注册时拥有的权限
+      - ROLE_USER
+
+
+

@@ -1,0 +1,182 @@
+<div id="loginBox" class="loginBox">
+    <link rel="stylesheet" href="/static/css/loginBox.css">
+    <script>
+        if (!user) {
+            var user = {
+                hasLogin: false,
+                afterLogin: () => {
+                    console.error("undefine user!")
+                }
+            };
+        }
+
+        function close(box, callback) {
+            box.css("filter", "blur(20px)");
+            box.fadeOut('slow', () => {
+                if (callback) {
+                    callback(box);
+                }
+                box.remove();
+            });
+        }
+
+        function hiddenAllForm() {
+            $('.loginBox').children('form').css("display", "none");
+        }
+        $("#loginBox").ready(() => {
+            let loginForm = $('#loginForm');
+            let registerForm = $('#registerForm');
+            let findBackForm = $('#findBackForm');
+            $('.turnToLogin').click(() => {
+                hiddenAllForm();
+                loginForm.css("display", "inline");
+            });
+            $('.turnToRegister').click(() => {
+                hiddenAllForm();
+                registerForm.css("display", "inline");
+            });
+            $('.turnToFindBack').click(() => {
+                hiddenAllForm();
+                findBackForm.css("display", "inline");
+            });
+            let loginButton = $('#loginButton');
+            let sendButton = $('#sendButton');
+            let registerButton = $('#registerButton');
+            let findBackButton = $('#findBackButton');
+            loginButton.click(() => {
+                loginButton.addClass("activedButton");
+                console.log(loginForm.serialize());
+                $.post(loginForm.attr("action"), loginForm.serialize(), (response) => {
+                    if (response.code == 200) {
+                        close($("#loginBox"), user.afterLogin());
+                    } else {
+                        loginButton.val(response.msg);
+                    }
+                })
+            });
+            let mailInput = $("#registerMail");
+            let registerNameInput = $("#registerName");
+            let sendingRegister = false;
+            let registerMail;
+            let registerName;
+            sendButton.click(() => {
+                sendButton.addClass("activedLongButton");
+                if (!sendingRegister) {
+                    sendingRegister = true;
+                    $.get("/stranger/verify/" + registerForm.find("[name='name']").val() + "/" + registerForm.find("[name='mail']").val(), (response) => {
+                        if (response.code = 200) {
+                            sendButton.removeClass("activedLongButton");
+                            sendButton.addClass("succeedLongButton");
+                            sendButton.val(response.msg);
+                            registerMail = mailInput.val();
+                            registerName = registerNameInput.val();
+                        } else {
+                            sendButton.removeClass("activedLongButton");
+                            sendButton.addClass("failedLongButton");
+                            sendButton.val(response.msg);
+                            sendingRegister = false;
+                        }
+                    });
+                }
+            })
+            sendButton.mouseenter(() => {
+                if (sendingRegister && (mailInput.val() != registerMail || registerNameInput.val() != registerName)) {
+                    sendButton.removeClass("activedLongButton");
+                    sendButton.removeClass("succeedLongButton");
+                    sendButton.removeClass("failedLongButton");
+                    sendingRegister = false;
+                    registerMail = mailInput.val();
+                    sendButton.val("重新发送");
+                }
+            })
+            registerButton.click(() => {
+                registerButton.addClass("activedButton");
+                $.post(registerForm.attr("action"), registerForm.serialize(), (response, status) => {
+                    console.log(response);
+                    if (status == "success") {
+                        if (response.code == 200) {
+                            close($("#loginBox"), user.afterLogin());
+                        } else {
+                            registerButton.val(response.msg);
+                        }
+                    }
+                })
+            });
+            let findBackSendButton = $("#findBackSendButton");
+            let findBackName = $("#findBackName");
+            let findBackNameVal = "";
+            let sendingFindBack = false;
+            findBackSendButton.click(() => {
+                findBackSendButton.addClass("activedLongButton");
+                if (!sendingFindBack) {
+                    sendingFindBack = true;
+                    $.get("/stranger/findBack/verify/" + findBackForm.find("[name='name']").val(), (response) => {
+                        if (response.code = 200) {
+                            findBackSendButton.removeClass("activedLongButton");
+                            findBackSendButton.addClass("succeedLongButton");
+                            findBackSendButton.val(response.msg);
+                            findBackNameVal = findBackName.val();
+                        } else {
+                            findBackSendButton.removeClass("activedLongButton");
+                            findBackSendButton.addClass("failedLongButton");
+                            findBackSendButton.val(response.msg);
+                            sendingFindBack = false;
+                        }
+                    });
+                }
+            });
+            findBackSendButton.mouseenter(() => {
+                if (sendingFindBack && findBackName.val() != findBackNameVal) {
+                    findBackSendButton.removeClass("activedLongButton");
+                    findBackSendButton.removeClass("succeedLongButton");
+                    findBackSendButton.removeClass("failedLongButton");
+                    sendingFindBack = false;
+                    findBackSendButton.val("重新发送");
+                }
+            })
+            findBackButton.click(() => {
+                findBackButton.addClass("activedButton");
+                $.post(findBackForm.attr("action"), findBackForm.serialize(), (response, status) => {
+                    console.log(response);
+                    if (status == "success") {
+                        if (response.code == 200) {
+                            close($("#loginBox"), user.afterLogin());
+                        } else {
+                            findBackButton.val(response.msg);
+                        }
+                    }
+                })
+            });
+
+        })
+    </script>
+    <form id="loginForm" class="loginForm" action="/stranger/login" method="POST">
+        <h1>登录</h1>
+        <input name="name" class="input" type="text" autocomplete="off" placeholder="用户名">
+        <input name="password" class="input" type="password" placeholder="密码">
+        <h4>没有账户？<a class="turnToRegister">注册</a> &nbsp;
+            <a class="turnToFindBack">忘记密码?</a>
+        </h4>
+        <h4>记住密码<input name="remember" class="remember" type="checkbox"></h4>
+        <input id="loginButton" type="button" class="submitButton" value="登录">
+    </form>
+    <form id="registerForm" class="registerForm" action="/stranger/register" method="POST">
+        <h1>注册</h1>
+        <input id="registerName" name="name" class="input" type="text" autocomplete="off" placeholder="用户名(长度小于32)">
+        <input name="password" class="input" type="password" placeholder="密码(长度为6-32)">
+        <input id="registerMail" name="mail" class="input" type="email" placeholder="邮箱">
+        <input id="sendButton" type="button" value="发送邮件" class="sendButton">
+        <input name="verification" class="input" type="text" placeholder="邮箱验证码">
+        <h4>已有账号？<a class="turnToLogin">登录</a></h4>
+        <input id="registerButton" type="button" class="submitButton" value="注册">
+    </form>
+    <form id="findBackForm" class="findBackForm" action="/stranger/findBack" method="POST">
+        <h1>修改密码</h1>
+        <input id="findBackName" name="name" class="input" type="text" autocomplete="off" placeholder="用户名(长度小于32)">
+        <input id="findBackSendButton" type="button" value="发送邮件" class="sendButton">
+        <input name="verification" class="input" type="text" placeholder="邮箱验证码">
+        <input name="password" class="input" type="password" placeholder="密码(长度为6-32)">
+        <h4>想起账号？<a class="turnToLogin">登录</a></h4>
+        <input id="findBackButton" type="button" class="submitButton" value="提交">
+    </form>
+</div>
