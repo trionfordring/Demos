@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>app wake up</title>
+    <style>
+        input {
+            margin: 5px;
+        }
+        
+        input[type="button"] {
+            width: 15vw auto;
+            height: 3vh auto;
+        }
+        
+        a {}
+        
+        input[type="text"] {
+            display: block;
+            width: 50vw;
+            height: 4vh;
+            border-radius: 15px;
+            border-color: aqua;
+            outline: none;
+        }
+    </style>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+        $(() => {
+            let scheme = $("#scheme");
+            $("#createHref").click(() => {
+                $("#href").html(scheme.val());
+                $("#href").prop("href", scheme.val());
+            });
+            $("#wakeByLocation").click(() => {
+                window.location.href = scheme.val();
+            })
+            $("#wakeByIframe").click(() => {
+                var ifr = document.createElement("iframe");
+                var last = Date.now();
+                ifr.src = scheme.val();
+                ifr.style.cssText = 'display:none;border:0;width:0;height:0;';
+                document.body.appendChild(ifr);
+                setTimeout(function() {
+                    document.body.removeChild(ifr);
+                }, 1000);
+            })
+        });
+    </script>
+</head>
+
+<body>
+    <input type="text" id="scheme">
+    <input type="button" id="createHref" value="createHref"> &nbsp;&nbsp;
+    <a id="href"></a><br>
+    <input type="button" id="wakeByLocation" value="wakeByLocation"><br>
+    <input type="button" id="wakeByIframe" value="wakeByIframe"><br>
+    <hr>
+    <a href="orpheuswidget://">打开网易云</a> orpheuswidget:// //测试失败
+    <br>
+    <a href="weixin://">打开微信</a> weixin://
+    <br>
+    <a href="alipays://">打开阿里云</a> alipays://
+    <br>
+    <a href="bilibili://">打开b站</a> bilibili:// //测试失败
+    <br>
+
+</body>
+
+</html>
