@@ -20,6 +20,7 @@ public class ArrayTimeWheel implements TimeWheel {
     private ThreadPoolExecutor threadPoolExecutor;
     private Stack<TimedTask> toDo;
     private TickTrigger tickTrigger;
+    private Long lastTickTime=0l;
 
     public ArrayTimeWheel(int teethNumber, int timeUnit, TickTrigger tickTrigger, ThreadPoolExecutor threadPoolExecutor){
         teeth = new Stack[teethNumber];
@@ -39,12 +40,15 @@ public class ArrayTimeWheel implements TimeWheel {
             RoundWrappedTask roundWrappedTask = teeth[nowTicks].pop();
             if(roundWrappedTask.hasGet()){
                 TimedTask timedTask = roundWrappedTask.getTimedTask();
-                toDo.push(timedTask);
-                if(timedTask.hasNext()){
+                if(timedTask.isRunning()){
+                    toDo.push(timedTask);
+                }
+                if(!timedTask.isDestroyed()&&timedTask.hasNext()){
                     timedTask.toNext();
                     int i = (timedTask.nextInterval()+nowTicks)%teeth.length;
                     RoundWrappedTask wrap = new RoundWrappedTask(timedTask,timedTask.nextInterval()/teeth.length);
                     if(i==nowTicks&&!wrap.hasGet()){
+                        wrap.mark();
                         temp.push(wrap);
                     }else{
                         teeth[i].push(wrap);
@@ -55,17 +59,26 @@ public class ArrayTimeWheel implements TimeWheel {
                 temp.push(roundWrappedTask);
             }
         }
+        teeth[nowTicks]=temp;
     }
 
     @Override
     public void addTask(TimedTask timedTask) {
-        int i = (timedTask.nextInterval()+nowTicks)%teeth.length;
-        RoundWrappedTask roundWrappedTask = new RoundWrappedTask(timedTask,timedTask.nextInterval()/teeth.length);
+        timedTask.goOn();
+        int i = timedTask.nextInterval()+nowTicks;
+        synchronized (lastTickTime){
+            if((System.currentTimeMillis()-lastTickTime.longValue())*2<timeUnit){
+                i--;
+            }
+        }
+        i%=teeth.length;
+        RoundWrappedTask roundWrappedTask = new RoundWrappedTask(timedTask,(timedTask.nextInterval()-1)/teeth.length);
         teeth[i].push(roundWrappedTask);
     }
 
     @Override
     public void tick() {
+        //System.out.println("tick-"+(System.currentTimeMillis()-lastTickTime)+"ms");
         if(toDo!=null&&!toDo.empty()){
             threadPoolExecutor.execute(tickTrigger.newInstance(toDo));
         }
@@ -75,6 +88,10 @@ public class ArrayTimeWheel implements TimeWheel {
     public void afterTick() {
         nowTicks++;
         nowTicks%=teeth.length;
+        synchronized (lastTickTime){
+            lastTickTime = System.currentTimeMillis();
+        }
+
     }
 
     @Override

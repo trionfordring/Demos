@@ -1,6 +1,7 @@
 package icu.fordring.timedTask;
 
 import icu.fordring.timedTask.Task.TimedTask;
+import icu.fordring.timedTask.Task.TimedTaskHandle;
 
 /**
  * @Description
@@ -10,5 +11,5 @@ import icu.fordring.timedTask.Task.TimedTask;
  */
 @FunctionalInterface
 public interface TaskFunction {
-    void activeFunction(TimedTask timedTask);
+    void activeFunction(TimedTaskHandle timedTaskHandle);
 }

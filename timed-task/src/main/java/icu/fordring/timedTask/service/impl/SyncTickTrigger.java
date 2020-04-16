@@ -27,7 +27,14 @@ public class SyncTickTrigger implements TickTrigger {
     public void run() {
         synchronized (timedTasks){
             for(TimedTask timedTask : timedTasks){
-                timedTask.active();
+                if(timedTask.isDestroyed()){
+                    timedTask.activeDestroy();
+                }else{
+                    timedTask.active();
+                    if(!timedTask.hasNext()){
+                        timedTask.activeDestroy();
+                    }
+                }
             }
         }
     }

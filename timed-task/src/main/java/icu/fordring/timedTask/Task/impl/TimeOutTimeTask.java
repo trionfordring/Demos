@@ -14,14 +14,49 @@ import java.util.List;
  */
 public class TimeOutTimeTask implements TimedTask {
     private List<TaskFunction> callBackFunctionList;
+    private List<TaskFunction> whenDestroyFunctionList;
     private int interval;
+    private boolean isRunning = false;
+    private boolean hasDestroyed = false;
     public TimeOutTimeTask(int interval){
         callBackFunctionList = new ArrayList<>();
+        this.whenDestroyFunctionList = new ArrayList<>();
         this.interval=interval;
     }
+
+    @Override
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    @Override
+    public boolean isDestroyed() {
+        return hasDestroyed;
+    }
+
+    @Override
+    public void stop() {
+        isRunning=false;
+    }
+
+    @Override
+    public void goOn() {
+        isRunning = true;
+    }
+
     @Override
     public List<TaskFunction> callBackFunctions() {
         return callBackFunctionList;
+    }
+
+    @Override
+    public List<TaskFunction> whenDestroyFunctions() {
+        return whenDestroyFunctionList;
+    }
+
+    @Override
+    public void destroy() {
+        this.hasDestroyed = false;
     }
 
     @Override
@@ -37,6 +72,13 @@ public class TimeOutTimeTask implements TimedTask {
     @Override
     public void active() {
         for(TaskFunction taskFunction:callBackFunctionList){
+            taskFunction.activeFunction(this);
+        }
+    }
+
+    @Override
+    public void activeDestroy() {
+        for(TaskFunction taskFunction:whenDestroyFunctionList){
             taskFunction.activeFunction(this);
         }
     }

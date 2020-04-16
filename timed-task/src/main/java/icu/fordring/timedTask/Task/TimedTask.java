@@ -10,10 +10,8 @@ import java.util.List;
  * @Author fordring
  * @date 2020.04.05 14:58
  */
-public interface TimedTask {
-    List<TaskFunction> callBackFunctions();
-    int nextInterval();
-    boolean hasNext();
+public interface TimedTask extends TimedTaskHandle {
     void active();
+    void activeDestroy();
     void toNext();
 }

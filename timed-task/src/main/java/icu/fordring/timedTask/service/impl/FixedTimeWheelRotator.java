@@ -29,9 +29,6 @@ public class FixedTimeWheelRotator implements TimeWheelRotator {
         long targetTickTime = lastTickTime+(long) (timeWheel.getTimeUnit()/timeSpeed);
         while(status){
             try {
-                while(timeSpeed<=1e-5){
-                    Thread.sleep(10);
-                }
                 if(timeOffset-timeWheel.getTimeUnit()<0){
                     timeOffset=timeWheel.getTimeUnit();
                 }
@@ -46,10 +43,14 @@ public class FixedTimeWheelRotator implements TimeWheelRotator {
                         Thread.sleep(0);
                     }
                 }
-                //更新下一轮的lastTickTime和targetTickTime
-                lastTickTime = System.currentTimeMillis();
                 //刷新时间流速
                 updateTimeSpeed();
+                while(timeSpeed<=1e-5){
+                    updateTimeSpeed();
+                    Thread.sleep(10);
+                }
+                //更新下一轮的lastTickTime和targetTickTime
+                lastTickTime = System.currentTimeMillis();
                 targetTickTime = lastTickTime+(long) (timeWheel.getTimeUnit()/timeSpeed);
                 //触发tick
                 timeWheel.tick();
