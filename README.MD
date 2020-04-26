@@ -2,7 +2,7 @@
 
 ## 简介
 
-1. **[user-login]**
+1. **[USER-LOGIN]**
    - 实现了简单的用户管理功能,包括：
      - 用户登录
      - 用户注册
@@ -14,6 +14,9 @@
      - 用户界面实现
 2. **[URL-SCHEME-DEMO]**
    - 展示了一些`URL-SCHEME`
+3. **[TIMED-TASK]**
+   - 无依赖实现的定时任务
 
-[user-login]:./user-login/README.MD
+[USER-LOGIN]:./user-login/README.MD
 [URL-SCHEME-DEMO]:./url-scheme-demo/README.MD
+[TIMED-TASK]:./timed-task/README.MD
